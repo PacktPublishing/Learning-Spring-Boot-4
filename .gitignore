@@ -40,3 +40,8 @@ node
 node_modules
 .parcel-cache
 
+ch8/*.aot
+ch8/*.aotconf
+
+ch8/*.aot
+ch8/*.aotconf
