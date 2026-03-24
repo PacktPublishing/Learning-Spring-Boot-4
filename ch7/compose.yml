@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: my-postgres
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+    ports:
+      - "5432:5432"
+
+  instance1:
+    image: ch7:0.0.1-SNAPSHOT
+    container_name: ch7-instance1
+    environment:
+      SPRING_PROFILES_ACTIVE: instance1
+    ports:
+      - "9000:8080"
+    depends_on:
+      - postgres
+
+  instance2:
+    image: ch7:0.0.1-SNAPSHOT
+    container_name: ch7-instance2
+    environment:
+      SPRING_PROFILES_ACTIVE: instance2
+    ports:
+      - "9001:8080"
+    depends_on:
+      - postgres
+
+  instance3:
+    image: ch7:0.0.1-SNAPSHOT
+    container_name: ch7-instance3
+    environment:
+      SPRING_PROFILES_ACTIVE: instance3
+    ports:
+      - "9002:8080"
+    depends_on:
+      - postgres
