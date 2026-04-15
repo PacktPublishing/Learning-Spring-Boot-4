@@ -1,4 +1,16 @@
 spring:
+  application:
+    name: employee-service
+  datasource:
+    url: jdbc:h2:mem:employees;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
@@ -6,11 +18,47 @@ spring:
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JacksonJsonDeserializer
-      #@org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        spring.json.trusted.packages: "*"
-
+        spring.json.trusted.packages: com.springbootlearning4
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JacksonJsonSerializer
-      #org.springframework.kafka.support.serializer.JsonSerializer
+    listener:
+      observation-enabled: true
+    template:
+      observation-enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  tracing:
+    sampling:
+      probability: 1.0
+  opentelemetry:
+    resource-attributes:
+      service.name: ${spring.application.name}
+      service.version: 1.0.0
+      deployment.environment: local
+    tracing:
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/traces
+    logging:
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/logs
+  otlp:
+    metrics:
+      export:
+        url: http://localhost:4318/v1/metrics
+
+logging:
+  level:
+    root: info
+  pattern:
+    correlation: "[traceId=%X{traceId:-} spanId=%X{spanId:-}] "
+  structured:
+    format:
+      console: logstash

@@ -1,0 +1,24 @@
+package com.springbootlearning4;
+
+import io.opentelemetry.api.OpenTelemetry;
+import io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.TaskDecorator;
+import org.springframework.core.task.support.ContextPropagatingTaskDecorator;
+
+@Configuration
+public class ObservabilityConfig {
+
+    @Bean
+    public TaskDecorator contextPropagatingTaskDecorator() {
+        return new ContextPropagatingTaskDecorator();
+    }
+
+    @Bean
+    public ApplicationRunner openTelemetryLogbackAppenderInstaller(OpenTelemetry openTelemetry) {
+        return args -> OpenTelemetryAppender.install(openTelemetry);
+    }
+
+}

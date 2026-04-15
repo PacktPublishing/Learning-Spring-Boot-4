@@ -10,15 +10,6 @@ import org.springframework.util.backoff.FixedBackOff;
 @Configuration
 public class KafkaConsumerConfig {
 
-//    @Configuration
-//    public class KafkaConsumerConfig {
-//        @Bean
-//        public DefaultErrorHandler errorHandler() {
-//            FixedBackOff fixedBackOff = new FixedBackOff(2000L, 3L);
-//            return new DefaultErrorHandler(fixedBackOff);
-//        }
-//    }
-
     @Bean
     public DefaultErrorHandler errorHandler(KafkaTemplate<Object, Object> kafkaTemplate) {
         FixedBackOff fixedBackOff = new FixedBackOff(2000L, 3L);
