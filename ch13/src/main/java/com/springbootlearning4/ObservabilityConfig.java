@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class LoggingConfig {
+public class ObservabilityConfig {
 
     @Bean
     public ApplicationRunner openTelemetryLogbackAppenderInstaller(OpenTelemetry openTelemetry) {
