@@ -1,5 +1,7 @@
 package com.springbootlearning4;
 
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -14,16 +16,32 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final KafkaTemplate<String, EmployeeCreatedEvent> kafkaTemplate;
+    private final MeterRegistry meterRegistry;
 
-    public EmployeeService(EmployeeRepository employeeRepository, KafkaTemplate<String, EmployeeCreatedEvent> kafkaTemplate) {
+    public EmployeeService(EmployeeRepository employeeRepository,
+                           KafkaTemplate<String, EmployeeCreatedEvent> kafkaTemplate,
+                           MeterRegistry meterRegistry) {
         this.employeeRepository = employeeRepository;
         this.kafkaTemplate = kafkaTemplate;
+        this.meterRegistry = meterRegistry;
     }
 
     public Employee createEmployee(Employee employee) {
-        log.info("Starting employee creation for role {}", roleForLog(employee));
+        String role = roleForMetrics(employee);
+
+        return Timer
+                .builder("employee.create.time")
+                .description("Time taken to create an employee")
+                .tag("role", role)
+                .register(meterRegistry)
+                .record(() -> createEmployeeAndPublishEvent(employee, role));
+    }
+
+    private Employee createEmployeeAndPublishEvent(Employee employee, String role) {
+        log.info("Starting employee creation for role {}", role);
 
         Employee saved = employeeRepository.save(employee);
+        meterRegistry.counter("employee.created.count", "role", role).increment();
         log.info("Employee {} saved to the database", saved.getId());
 
         EmployeeCreatedEvent employeeCreatedEvent = new EmployeeCreatedEvent(
@@ -39,10 +57,10 @@ public class EmployeeService {
         return saved;
     }
 
-    private String roleForLog(Employee employee) {
+    private String roleForMetrics(Employee employee) {
         if (employee.getRole() == null || employee.getRole().isBlank()) {
             return "UNKNOWN";
         }
-        return employee.getRole();
+        return employee.getRole().toUpperCase();
     }
 }

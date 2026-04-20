@@ -35,8 +35,20 @@ services:
     ports:
       - "4317:4317"
       - "4318:4318"
+      - "9464:9464"
     depends_on:
       - loki
+
+  prometheus:
+    image: prom/prometheus:v3.1.0
+    container_name: ch13-prometheus
+    command: ["--config.file=/etc/prometheus/prometheus.yml"]
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+    depends_on:
+      - otel-collector
 
   grafana:
     image: grafana/grafana:11.4.0
@@ -50,3 +62,4 @@ services:
       - ./grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml:ro
     depends_on:
       - loki
+      - prometheus
