@@ -23,6 +23,8 @@ processors:
 exporters:
   loki:
     endpoint: http://loki:3100/loki/api/v1/push
+  prometheus:
+    endpoint: 0.0.0.0:9464
   debug:
     verbosity: basic
 
@@ -32,3 +34,7 @@ service:
       receivers: [otlp]
       processors: [resource, batch]
       exporters: [loki, debug]
+    metrics:
+      receivers: [otlp]
+      processors: [resource, batch]
+      exporters: [prometheus]
