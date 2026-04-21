@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: employee-service
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
@@ -6,11 +8,38 @@ spring:
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JacksonJsonDeserializer
-      #@org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        spring.json.trusted.packages: "*"
+        spring.json.trusted.packages: com.springbootlearning4
 
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JacksonJsonSerializer
-      #org.springframework.kafka.support.serializer.JsonSerializer
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  tracing:
+    enabled: false
+  opentelemetry:
+    resource-attributes:
+      service.name: ${spring.application.name}
+      service.version: 1.0.0
+      deployment.environment: local
+    logging:
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/logs
+  otlp:
+    metrics:
+      export:
+        enabled: false
+
+logging:
+  level:
+    root: info
+    com.springbootlearning4: info
+  structured:
+    format:
+      console: logstash
