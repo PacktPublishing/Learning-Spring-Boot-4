@@ -26,6 +26,15 @@ services:
     ports:
       - "3100:3100"
 
+  tempo:
+    image: grafana/tempo:2.7.1
+    container_name: ch13-tempo
+    command: ["-config.file=/etc/tempo.yml"]
+    volumes:
+      - ./tempo.yml:/etc/tempo.yml:ro
+    ports:
+      - "3200:3200"
+
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.116.1
     container_name: ch13-otel-collector
@@ -38,6 +47,7 @@ services:
       - "9464:9464"
     depends_on:
       - loki
+      - tempo
 
   prometheus:
     image: prom/prometheus:v3.1.0
@@ -62,4 +72,5 @@ services:
       - ./grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml:ro
     depends_on:
       - loki
+      - tempo
       - prometheus

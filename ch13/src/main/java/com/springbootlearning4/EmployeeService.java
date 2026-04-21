@@ -2,6 +2,8 @@ package com.springbootlearning4;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;
+import io.micrometer.observation.Observation;
+import io.micrometer.observation.ObservationRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -17,24 +19,31 @@ public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final KafkaTemplate<String, EmployeeCreatedEvent> kafkaTemplate;
     private final MeterRegistry meterRegistry;
+    private final ObservationRegistry observationRegistry;
 
     public EmployeeService(EmployeeRepository employeeRepository,
                            KafkaTemplate<String, EmployeeCreatedEvent> kafkaTemplate,
-                           MeterRegistry meterRegistry) {
+                           MeterRegistry meterRegistry,
+                           ObservationRegistry observationRegistry) {
         this.employeeRepository = employeeRepository;
         this.kafkaTemplate = kafkaTemplate;
         this.meterRegistry = meterRegistry;
+        this.observationRegistry = observationRegistry;
     }
 
     public Employee createEmployee(Employee employee) {
         String role = roleForMetrics(employee);
 
-        return Timer
-                .builder("employee.create.time")
-                .description("Time taken to create an employee")
-                .tag("role", role)
-                .register(meterRegistry)
-                .record(() -> createEmployeeAndPublishEvent(employee, role));
+        return Observation
+                .createNotStarted("employee.create", observationRegistry)
+                .contextualName("create employee")
+                .lowCardinalityKeyValue("employee.role", role)
+                .observe(() -> Timer
+                        .builder("employee.create.time")
+                        .description("Time taken to create an employee")
+                        .tag("role", role)
+                        .register(meterRegistry)
+                        .record(() -> createEmployeeAndPublishEvent(employee, role)));
     }
 
     private Employee createEmployeeAndPublishEvent(Employee employee, String role) {
