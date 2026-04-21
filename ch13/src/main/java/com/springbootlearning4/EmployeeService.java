@@ -34,6 +34,16 @@ public class EmployeeService {
     public Employee createEmployee(Employee employee) {
         String role = roleForMetrics(employee);
 
+        // Metrics only
+        /*
+        return Timer
+                .builder("employee.create.time")
+                .description("Time taken to create an employee")
+                .tag("role", role)
+                .register(meterRegistry)
+                .record(() -> createEmployeeAndPublishEvent(employee, role));
+        */
+
         return Observation
                 .createNotStarted("employee.create", observationRegistry)
                 .contextualName("create employee")

@@ -27,6 +27,18 @@ public class NotificationService {
 
     @KafkaListener(topics = "employee-events", groupId = "notification-group")
     public void handleEmployeeCreated(EmployeeCreatedEvent event) {
+
+        /*
+            recordNotificationMetric("received");
+            log.info("Received employee-created event for employee {}", event.employeeId());
+            if (!processedEvents.add(event.employeeId())) {
+                recordNotificationMetric("duplicate");
+                log.info("Skipping duplicate employee-created event for employee {}", event.employeeId());
+                return;
+            }
+            sendNotification(event);
+         */
+
         Observation
                 .createNotStarted("notification.process", observationRegistry)
                 .contextualName("process employee notification")
