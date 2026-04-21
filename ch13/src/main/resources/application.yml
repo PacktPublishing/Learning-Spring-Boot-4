@@ -3,6 +3,10 @@ spring:
     name: employee-service
   kafka:
     bootstrap-servers: localhost:9092
+    listener:
+      observation-enabled: true
+    template:
+      observation-enabled: true
     consumer:
       group-id: notification-group
       auto-offset-reset: earliest
@@ -21,7 +25,10 @@ management:
       exposure:
         include: health,info,metrics
   tracing:
-    enabled: false
+    export:
+      enabled: true
+    sampling:
+      probability: 1.0
   opentelemetry:
     resource-attributes:
       service.name: ${spring.application.name}
@@ -31,6 +38,10 @@ management:
       export:
         otlp:
           endpoint: http://localhost:4318/v1/logs
+    tracing:
+      export:
+        otlp:
+          endpoint: http://localhost:4318/v1/traces
   otlp:
     metrics:
       export:
