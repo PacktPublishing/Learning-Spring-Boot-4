@@ -94,6 +94,25 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- ── Heading 4: MCP ───────────────────────────────────────────────────── -->
+
+        <!-- MCP server — exposes @Tool beans via Streamable-HTTP at /mcp -->
+        <!-- The starter auto-discovers all @Tool-annotated @Component beans  -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-mcp-server-webmvc</artifactId>
+        </dependency>
+
+        <!--
+                  MCP client — connects to external MCP servers and provides
+                  SyncMcpToolCallbackProvider for wiring discovered tools into ChatClient.
+                  Activate with: spring.profiles.active=mcp-client-->
+              <dependency>
+                  <groupId>org.springframework.ai</groupId>
+                  <artifactId>spring-ai-starter-mcp-client</artifactId>
+              </dependency>
+
+
         <!-- Actuator — exposes /actuator/health and /actuator/info -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
