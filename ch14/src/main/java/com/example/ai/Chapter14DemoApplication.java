@@ -16,16 +16,16 @@ public class Chapter14DemoApplication {
 
     // Smoke test — runs once on startup (skipped during tests via @Profile).
     // Requires OPENAI_API_KEY to be set. Expected output: "Spring AI works."
-//    @Bean
-//    @Profile("!test")
-//    CommandLineRunner smoke(ChatClient.Builder builder) {
-//        return args -> {
-//            String reply = builder.build()
-//                    .prompt()
-//                    .user("Reply with exactly three words: Spring AI works.")
-//                    .call()
-//                    .content();
-//            System.out.println(">>> Smoke test: " + reply);
-//        };
-//    }
+    @Bean
+    @Profile("!test")
+    CommandLineRunner smoke(ChatClient.Builder builder) {
+        return args -> {
+            String reply = builder.build()
+                    .prompt()
+                    .user("Reply with exactly three words: Spring AI works.")
+                    .call()
+                    .content();
+            System.out.println(">>> Smoke test: " + reply);
+        };
+    }
 }
