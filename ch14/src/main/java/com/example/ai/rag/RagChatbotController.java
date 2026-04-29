@@ -2,11 +2,11 @@ package com.example.ai.rag;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
-import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
-import org.springframework.ai.chat.memory.InMemoryChatMemory;
-import org.springframework.ai.vectorstore.SearchRequest;
+import org.springframework.ai.chat.memory.MessageWindowChatMemory;
+import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor;
+import org.springframework.ai.rag.retrieval.search.VectorStoreDocumentRetriever;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/ai")
 public class RagChatbotController {
 
-    private final ChatClient chatClient;
-    private final VectorStore vectorStore;
-    private final InMemoryChatMemory chatMemory;
+    private final ChatClient           chatClient;
+    private final VectorStore          vectorStore;
+    private final MessageWindowChatMemory chatMemory;
 
     public RagChatbotController(ChatClient chatClient,
                                 VectorStore vectorStore,
-                                InMemoryChatMemory chatMemory) {
+                                MessageWindowChatMemory chatMemory) {
         this.chatClient  = chatClient;
         this.vectorStore = vectorStore;
         this.chatMemory  = chatMemory;
@@ -40,11 +40,16 @@ public class RagChatbotController {
                 .user(message)
                 .advisors(advisor -> advisor
                         .advisors(
-                            new SimpleLoggerAdvisor(),
-                            MessageChatMemoryAdvisor.builder(chatMemory).build(),
-                            QuestionAnswerAdvisor.builder(vectorStore)
-                                    .searchRequest(SearchRequest.builder().topK(4).build())
-                                    .build()
+                                new SimpleLoggerAdvisor(),
+                                MessageChatMemoryAdvisor.builder(chatMemory).build(),
+                                // In Spring AI 2.0.0-M5, QuestionAnswerAdvisor was replaced
+                                // by RetrievalAugmentationAdvisor from spring-ai-rag
+                                RetrievalAugmentationAdvisor.builder()
+                                        .documentRetriever(VectorStoreDocumentRetriever.builder()
+                                                .vectorStore(vectorStore)
+                                                .topK(4)
+                                                .build())
+                                        .build()
                         )
                         .param(ChatMemory.CONVERSATION_ID, conversationId))
                 .call()
