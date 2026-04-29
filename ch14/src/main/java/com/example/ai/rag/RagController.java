@@ -1,8 +1,8 @@
 package com.example.ai.rag;
 
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
-import org.springframework.ai.vectorstore.SearchRequest;
+import org.springframework.ai.rag.advisor.RetrievalAugmentationAdvisor;
+import org.springframework.ai.rag.retrieval.search.VectorStoreDocumentRetriever;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,10 +25,15 @@ public class RagController {
 
     @GetMapping("/rag")
     public RagAnswer rag(@RequestParam String question) {
+        // In Spring AI 2.0.0-M5, QuestionAnswerAdvisor was replaced by
+        // RetrievalAugmentationAdvisor + VectorStoreDocumentRetriever from spring-ai-rag
         String reply = chatClient.prompt()
                 .user(question)
-                .advisors(QuestionAnswerAdvisor.builder(vectorStore)
-                        .searchRequest(SearchRequest.builder().topK(4).build())
+                .advisors(RetrievalAugmentationAdvisor.builder()
+                        .documentRetriever(VectorStoreDocumentRetriever.builder()
+                                .vectorStore(vectorStore)
+                                .topK(4)
+                                .build())
                         .build())
                 .call()
                 .content();

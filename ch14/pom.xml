@@ -65,6 +65,13 @@
 
         <!-- ── Heading 3: RAG — Vector Stores ──────────────────────────────────── -->
 
+        <!-- Spring AI RAG module — provides RetrievalAugmentationAdvisor and
+             VectorStoreDocumentRetriever (QuestionAnswerAdvisor was removed in 2.0.0-M5) -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-rag</artifactId>
+        </dependency>
+
         <!-- pgvector — production vector store (requires Docker: pgvector/pgvector:pg17) -->
         <dependency>
             <groupId>org.springframework.ai</groupId>
