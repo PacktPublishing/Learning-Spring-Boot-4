@@ -31,7 +31,7 @@ public class AiController {
         return new AiAnswer(
                 response.getResult().getOutput().getText(),
                 response.getMetadata().getUsage().getPromptTokens(),
-                response.getMetadata().getUsage().getGenerationTokens()
+                response.getMetadata().getUsage().getTotalTokens()
         );
     }
 
