@@ -1,6 +1,7 @@
 services:
 
-  # ── pgvector — PostgreSQL 17 with the pgvector extension (production vector store) ──
+  # ── Heading 3: Vector Stores ─────────────────────────────────────────────────
+
   pgvector:
     image: pgvector/pgvector:pg17
     container_name: ch14-pgvector
@@ -16,9 +17,66 @@ services:
       timeout: 5s
       retries: 5
 
-  # ── Chroma — lightweight vector DB for local development ─────────────────────────────
   chroma:
     image: ghcr.io/chroma-core/chroma:1.0.0
     container_name: ch14-chroma
     ports:
       - "8000:8000"
+
+  # ── Heading 5: Observability Stack ───────────────────────────────────────────
+
+  loki:
+    image: grafana/loki:3.4.1
+    container_name: ch14-loki
+    command: ["-config.file=/etc/loki/local-config.yaml"]
+    ports:
+      - "3100:3100"
+
+  tempo:
+    image: grafana/tempo:2.7.1
+    container_name: ch14-tempo
+    command: ["-config.file=/etc/tempo.yml"]
+    volumes:
+      - ./tempo.yml:/etc/tempo.yml:ro
+    ports:
+      - "3200:3200"
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.116.1
+    container_name: ch14-otel-collector
+    command: ["--config=/etc/otelcol/config.yml"]
+    volumes:
+      - ./otel-collector-config.yml:/etc/otelcol/config.yml:ro
+    ports:
+      - "4317:4317"   # gRPC
+      - "4318:4318"   # HTTP
+      - "9464:9464"   # Prometheus scrape endpoint
+    depends_on:
+      - loki
+      - tempo
+
+  prometheus:
+    image: prom/prometheus:v3.1.0
+    container_name: ch14-prometheus
+    command: ["--config.file=/etc/prometheus/prometheus.yml"]
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    ports:
+      - "9090:9090"
+    depends_on:
+      - otel-collector
+
+  grafana:
+    image: grafana/grafana:11.4.0
+    container_name: ch14-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    volumes:
+      - ./grafana-datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml:ro
+    depends_on:
+      - loki
+      - tempo
+      - prometheus

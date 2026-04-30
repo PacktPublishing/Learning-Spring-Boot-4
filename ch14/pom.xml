@@ -121,16 +121,56 @@
               </dependency>
 
 
-        <!-- Actuator — exposes /actuator/health and /actuator/info -->
+        <!-- Actuator — exposes /actuator/health, /actuator/metrics, /actuator/prometheus -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+        <!-- ── Heading 5: Observability ────────────────────────────────────────── -->
+
+        <!-- OpenTelemetry — exports traces, metrics, and logs via OTLP -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-opentelemetry</artifactId>
+        </dependency>
+
+        <!-- OTel Logback appender — routes structured logs through the OTel pipeline.
+             Not available via Spring Initializr; must be added manually.
+             Version must be explicit: not managed by Spring Boot BOM. -->
+        <dependency>
+            <groupId>io.opentelemetry.instrumentation</groupId>
+            <artifactId>opentelemetry-logback-appender-1.0</artifactId>
+            <version>2.26.1-alpha</version>
+        </dependency>
+
+        <!-- ── Heading 5: Testing ───────────────────────────────────────────────── -->
+
         <!-- Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Testcontainers — starts real Docker containers for integration tests.
+             In Testcontainers 2.x (used by Spring Boot 4) artifact IDs were renamed:
+               postgresql    → testcontainers-postgresql
+               junit-jupiter → testcontainers-junit-jupiter
+             Versions are managed by the Testcontainers BOM imported via spring-boot-dependencies. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-testcontainers</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers-postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers-junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
 
