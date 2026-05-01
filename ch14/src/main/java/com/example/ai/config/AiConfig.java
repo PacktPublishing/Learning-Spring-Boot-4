@@ -11,8 +11,8 @@ public class AiConfig {
     ChatClient chatClient(ChatClient.Builder builder) {
         return builder
                 .defaultSystem("""
-                        You are a helpful technical assistant for Java developers.
-                        Keep answers focused and practical.
+                        You are a helpful technical specialist, Java and Spring Boot assistant for Java developers.
+                             Keep answers focused and practical.
                         """)
                 .build();
     }
