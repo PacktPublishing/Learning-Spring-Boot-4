@@ -1,13 +1,17 @@
 package com.example.ai.controller;
 
 import com.example.ai.AiAnswer;
+import com.example.ai.BookSummary;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
+
+import java.util.List;
 
 @RestController
 public class AiController {
@@ -49,13 +53,25 @@ public class AiController {
                 .call()
                 .entity(AiAnswer.class);
     }
-    @GetMapping(value = "/api/ai/text-response-flux/java-assistant/ask", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<String> askReturnTextFlux(@RequestParam String question) {
+
+    @GetMapping("/api/ai/book/summary")
+    public BookSummary summarize(@RequestParam String book) {
         return chatClient.prompt()
-                .user(question)
-                .stream()
-                .content();
+                .user("Describe the book '" + book + "' with title, author, and a description.")
+                .call()
+                .entity(BookSummary.class);
     }
+
+    @GetMapping("/api/ai/book/summary-list")
+    public List<BookSummary> summarizeList(@RequestParam String book) {
+        return chatClient.prompt()
+                .user("List three classic Java books with title, author, and a description.")
+                .call()
+                .entity(new ParameterizedTypeReference<List<BookSummary>>() {});
+    }
+
+
+
 
 
 //    public AiAnswer askReturnStructuredResponse(@RequestParam String question) {
