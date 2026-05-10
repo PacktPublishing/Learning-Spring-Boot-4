@@ -1,0 +1,53 @@
+=== TechStore Product FAQ ===
+
+Q: What is the return policy?
+A: Customers may return any item within 30 days of purchase for a full refund.
+   Items must be in their original packaging and unused condition.
+   Digital downloads are non-refundable once accessed.
+
+Q: What are the shipping options?
+A: We offer three shipping tiers:
+   - Standard (5-7 business days): free on orders over $50, otherwise $4.99.
+   - Express (2-3 business days): $9.99.
+   - Overnight (next business day): $24.99.
+   Orders placed before 2 PM EST ship the same day.
+
+Q: What is the warranty on the SpringBook Pro?
+A: The SpringBook Pro carries a 2-year limited hardware warranty covering manufacturing
+   defects. Physical damage and liquid damage are not covered. An extended TechCare plan
+   is available at $49/year and covers accidental damage, including one screen replacement
+   per year and unlimited battery replacements.
+
+Q: Is the SpringBook Pro compatible with Java 25?
+A: Yes. The SpringBook Pro ships with JDK 25 LTS pre-installed and is fully certified for
+   Spring Boot 4 workloads. The integrated NPU (Neural Processing Unit) accelerates local
+   AI inference using Ollama at up to 40 tokens per second for 7B-parameter models.
+
+Q: What are the technical specifications of the SpringBook Pro?
+A: Processor: 12-core ARM CPU (4 performance + 8 efficiency cores).
+   Memory: 16 GB unified RAM (32 GB optional upgrade).
+   Storage: 512 GB NVMe SSD (1 TB and 2 TB options available).
+   Display: 14-inch OLED, 2880x1800, 120 Hz ProMotion.
+   Battery: Up to 18 hours of typical use.
+   Ports: 2x USB-C Thunderbolt 5, 1x HDMI 2.1, 1x SD card reader, 1x 3.5mm audio.
+
+Q: How do I contact customer support?
+A: Support is available Monday to Friday, 9 AM to 6 PM EST:
+   - Live chat: techstore.example.com/support
+   - Email: support@techstore.example.com
+   - Phone: 1-800-TECH-123 (1-800-832-4123)
+   Priority support with a 2-hour response SLA is available to TechCare subscribers.
+
+Q: Does TechStore offer student or educational discounts?
+A: Yes. Students and educators with a valid .edu email address receive 15% off all hardware.
+   Educational institutions purchasing 10 or more units qualify for volume pricing.
+   Contact sales@techstore.example.com for a custom quote.
+
+Q: What payment methods are accepted?
+A: We accept Visa, MasterCard, American Express, PayPal, Apple Pay, Google Pay, and
+   TechStore gift cards. Buy-now-pay-later is available through Affirm for orders over $200.
+
+Q: How do I track my order?
+A: Once your order ships you will receive an email with a tracking number. You can also
+   log into your account at techstore.example.com/orders to view real-time shipping status.
+   Estimated delivery dates are updated automatically as the package moves through the carrier.

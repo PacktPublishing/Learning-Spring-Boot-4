@@ -19,7 +19,7 @@ public class CodeReviewController {
     record ReviewRequest(String language, String code) {}
     record ReviewResult(String feedback) {}
 
-    @PostMapping("/review")
+    @PostMapping("/code-review")
     public ReviewResult review(@RequestBody ReviewRequest request) {
         return new ReviewResult(
                 codeReviewService.review(request.language(), request.code())

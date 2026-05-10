@@ -23,61 +23,69 @@
     </properties>
 
     <dependencies>
-
-        <!-- Spring MVC (servlet stack) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc</artifactId>
         </dependency>
-
-        <!-- WebFlux — needed for Flux<String> SSE streaming in Spring MVC -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-model-openai</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
 
-        <!-- Spring AI — OpenAI provider (active by default) -->
-        <dependency>
-            <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-model-openai</artifactId>
-        </dependency>
-
-        <!--
-            Spring AI — Anthropic Claude (optional)
-            To enable: uncomment this dependency and set ANTHROPIC_API_KEY env var.
-            Also uncomment the Anthropic properties in application.properties.
-        <dependency>
-            <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-model-anthropic</artifactId>
-        </dependency>
-        -->
-
-        <!--
-            Spring AI — Ollama local inference (optional)
-            To enable: uncomment this dependency, run `ollama serve`, and
-            uncomment the Ollama properties in application.properties.
-            Required for the multi-model profile (MultiModelConfig).
-        <dependency>
-            <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-model-ollama</artifactId>
-        </dependency>
-        -->
-
-        <!-- Actuator — exposes /actuator/health and /actuator/info -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-vector-store-pgvector</artifactId>
         </dependency>
 
-        <!-- Test -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <artifactId>spring-ai-rag</artifactId>
+            <groupId>org.springframework.ai</groupId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-mcp-server-webmvc</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-mcp-client</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
     </dependencies>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -98,27 +106,96 @@
             </plugin>
         </plugins>
     </build>
-
-    <!-- Spring Milestone repository — required for Spring AI 2.0.0-M5 -->
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-
 </project>
+
+
+        <!--    <dependencies>-->
+
+        <!--        &lt;!&ndash; Spring MVC (servlet stack) &ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-webmvc</artifactId>-->
+        <!--        </dependency>-->
+
+        <!--&lt;!&ndash;        &lt;!&ndash; WebFlux — needed for Flux<String> SSE streaming in Spring MVC &ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;        <dependency>&ndash;&gt;-->
+        <!--&lt;!&ndash;            <groupId>org.springframework.boot</groupId>&ndash;&gt;-->
+        <!--&lt;!&ndash;            <artifactId>spring-boot-starter-webflux</artifactId>&ndash;&gt;-->
+        <!--&lt;!&ndash;        </dependency>&ndash;&gt;-->
+
+        <!--        &lt;!&ndash; Spring AI — OpenAI provider (active by default) &ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.ai</groupId>-->
+        <!--            <artifactId>spring-ai-starter-model-openai</artifactId>-->
+        <!--        </dependency>-->
+
+        <!--        &lt;!&ndash;-->
+        <!--            Spring AI — Ollama local inference (optional)-->
+        <!--            To enable: uncomment this dependency, run `ollama serve`, and-->
+        <!--            uncomment the Ollama properties in application.properties.-->
+        <!--            Required for the multi-model profile (MultiModelConfig).-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.ai</groupId>-->
+        <!--            <artifactId>spring-ai-starter-model-ollama</artifactId>-->
+        <!--        </dependency>-->
+        <!--        &ndash;&gt;-->
+
+        <!--&lt;!&ndash;        &lt;!&ndash; Actuator — exposes /actuator/health and /actuator/info &ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;        <dependency>&ndash;&gt;-->
+        <!--&lt;!&ndash;            <groupId>org.springframework.boot</groupId>&ndash;&gt;-->
+        <!--&lt;!&ndash;            <artifactId>spring-boot-starter-actuator</artifactId>&ndash;&gt;-->
+        <!--&lt;!&ndash;        </dependency>&ndash;&gt;-->
+
+        <!--        &lt;!&ndash; Test &ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.boot</groupId>-->
+        <!--            <artifactId>spring-boot-starter-webmvc-test</artifactId>-->
+        <!--            <scope>test</scope>-->
+        <!--        </dependency>-->
+
+        <!--    </dependencies>-->
+
+        <!--    <dependencyManagement>-->
+        <!--        <dependencies>-->
+        <!--            <dependency>-->
+        <!--                <groupId>org.springframework.ai</groupId>-->
+        <!--                <artifactId>spring-ai-bom</artifactId>-->
+        <!--                <version>${spring-ai.version}</version>-->
+        <!--                <type>pom</type>-->
+        <!--                <scope>import</scope>-->
+        <!--            </dependency>-->
+        <!--        </dependencies>-->
+        <!--    </dependencyManagement>-->
+
+        <!--    <build>-->
+        <!--        <plugins>-->
+        <!--            <plugin>-->
+        <!--                <groupId>org.springframework.boot</groupId>-->
+        <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+        <!--            </plugin>-->
+        <!--        </plugins>-->
+        <!--    </build>-->
+
+        <!--    &lt;!&ndash; Spring Milestone repository — required for Spring AI 2.0.0-M5 &ndash;&gt;-->
+        <!--    <repositories>-->
+        <!--        <repository>-->
+        <!--            <id>spring-milestones</id>-->
+        <!--            <name>Spring Milestones</name>-->
+        <!--            <url>https://repo.spring.io/milestone</url>-->
+        <!--            <snapshots>-->
+        <!--                <enabled>false</enabled>-->
+        <!--            </snapshots>-->
+        <!--        </repository>-->
+        <!--    </repositories>-->
+        <!--    <pluginRepositories>-->
+        <!--        <pluginRepository>-->
+        <!--            <id>spring-milestones</id>-->
+        <!--            <name>Spring Milestones</name>-->
+        <!--            <url>https://repo.spring.io/milestone</url>-->
+        <!--            <snapshots>-->
+        <!--                <enabled>false</enabled>-->
+        <!--            </snapshots>-->
+        <!--        </pluginRepository>-->
+        <!--    </pluginRepositories>-->
+
+        <!--</project>-->

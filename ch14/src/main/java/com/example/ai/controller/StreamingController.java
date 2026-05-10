@@ -18,10 +18,10 @@ public class StreamingController {
         this.chatClient = chatClient;
     }
 
-    @GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<String> stream(@RequestParam String message) {
+    @GetMapping(value = "/api/ai/text-response-flux/java-assistant/ask", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<String> askReturnTextFlux(@RequestParam String question) {
         return chatClient.prompt()
-                .user(message)
+                .user(question)
                 .stream()
                 .content();
     }
