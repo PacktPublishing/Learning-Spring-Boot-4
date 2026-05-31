@@ -1,4 +1,4 @@
-package com.springbootlearning4;
+package com.learningspringboot4;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

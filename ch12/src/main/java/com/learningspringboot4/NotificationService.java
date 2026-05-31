@@ -1,4 +1,4 @@
-package com.springbootlearning4;
+package com.learningspringboot4;
 
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -13,11 +13,12 @@ public class NotificationService {
 
     @KafkaListener(topics = "employee-events", groupId = "notification-group")
     public void handleEmployeeCreated(EmployeeCreatedEvent event) {
-        if (!processedEvents.add(event.employeeId())) {
+        if (processedEvents.contains(event.employeeId())) {
             System.out.println("Skipping duplicate event. Employee ID: " + event.employeeId());
             return;
         }
         sendNotification(event);
+        processedEvents.add(event.employeeId());
     }
 
     private void sendNotification(EmployeeCreatedEvent event) {

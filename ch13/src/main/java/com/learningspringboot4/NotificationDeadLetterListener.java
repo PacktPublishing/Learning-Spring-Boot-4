@@ -1,4 +1,4 @@
-package com.springbootlearning4;
+package com.learningspringboot4;
 
 import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationRegistry;

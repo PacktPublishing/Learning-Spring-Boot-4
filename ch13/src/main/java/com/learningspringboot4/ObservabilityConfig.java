@@ -1,4 +1,4 @@
-package com.springbootlearning4;
+package com.learningspringboot4;
 
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.instrumentation.logback.appender.v1_0.OpenTelemetryAppender;

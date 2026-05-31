@@ -1,4 +1,4 @@
-package com.springbootlearning4;
+package com.learningspringboot4;
 
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;

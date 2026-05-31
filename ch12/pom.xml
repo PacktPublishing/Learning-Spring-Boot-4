@@ -8,7 +8,7 @@
         <version>4.0.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.springbootlearning4</groupId>
+    <groupId>com.learningspringboot4</groupId>
     <artifactId>ch12</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Chapter 12</name>

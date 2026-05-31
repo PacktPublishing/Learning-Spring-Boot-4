@@ -13,7 +13,7 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JacksonJsonDeserializer
       properties:
-        spring.json.trusted.packages: com.springbootlearning4
+        spring.json.trusted.packages: com.learningspringboot4
 
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
@@ -52,7 +52,7 @@ management:
 logging:
   level:
     root: info
-    com.springbootlearning4: info
+    com.learningspringboot4: info
   structured:
     format:
       console: logstash
