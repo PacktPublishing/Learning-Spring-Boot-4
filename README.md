@@ -94,7 +94,7 @@ If you want to gain a thorough understanding of building robust, modern applicat
 
 <details open> 
   <summary><h2>Requirements for this book</summary>
-Spring Boot 4.0 requires Java 17 or later and provides first-class support for Java 25. In this book, we use Java 25 throughout. By using sdkman (https://sdkman.io), you can easily install the version of Java needed. In <i>Chapter 8</i>, <i>Going Native with Spring Boot</i>, we'll include instructions on how to use sdkman to install a specific flavor of Java that supports building native images for GraalVM. While it's possible to write code using a barebones text editor, any modern IDE (see the following list) will greatly enhance the coding experience. Check out the one that works best for you.</br></br>
+This book has been updated to Spring Boot 4.1.</br>Spring Boot 4.1 requires Java 17 or later and provides first-class support for Java 25. In this book, we use Java 25 throughout. By using sdkman (https://sdkman.io), you can easily install the version of Java needed. In <i>Chapter 8</i>, <i>Going Native with Spring Boot</i>, we'll include instructions on how to use sdkman to install a specific flavor of Java that supports building native images for GraalVM. While it's possible to write code using a barebones text editor, any modern IDE (see the following list) will greatly enhance the coding experience. Check out the one that works best for you.</br></br>
 
 <table>
   <tr><td><b>Software/hardware covered in the book</b></td><td><b>Operating system requirements</b></td></tr>
